@@ -1,0 +1,11 @@
+#!/bin/bash
+
+screen_name=$1
+
+if test -z "$screen_name"; 
+then
+        echo "Usage: $0 screen name"
+        exit 1
+fi
+
+screen -X -S "$1" quit
