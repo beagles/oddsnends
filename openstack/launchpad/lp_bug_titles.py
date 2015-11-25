@@ -39,9 +39,16 @@ def main():
         try:
             bug = bugs[b]
             summary = bug.title
+            tasks = bug.bug_tasks
+            importance = "<na>"
+            for t in tasks:
+                if t.status.find("Committed") != -1:
+                    importance = t.importance
+                    break
+
         except errors.HTTPError:
             summary = 'Private'
-        print 'https://bugs.launchpad.net/neutron/+bug/%s' % b.strip(), summary
+        print 'https://bugs.launchpad.net/neutron/+bug/%s' % b.strip(), '-', importance, '-',  summary
 
 if __name__ == '__main__':
     main()
