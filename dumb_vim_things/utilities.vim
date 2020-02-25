@@ -27,6 +27,14 @@ vim.current.line = str(datetime.datetime.today().strftime("%H:%M")) + ' ' + vim.
 EOF
 endfunction
 
+function! PrintTimedMsg(msg)
+python << EOF
+import vim
+import datetime
+vim.current.line = str(datetime.datetime.today().strftime("%H:%M")) + ' ' + vim.eval("a:msg") +  vim.current.line
+EOF
+endfunction
+
 function! FormatJSON()
 python << EOF
 import vim
@@ -121,7 +129,7 @@ fun! BufSwitch()
 	else
 	    while ! bufloaded(g:bufSwitchPrev) && g:bufSwitchPrev != g:bufSwitchCurrent
 		let g:bufSwitchPrev = g:bufSwitchPrev + 1
-		if g:bufSwitchPrev > bufnr("$") 
+		if g:bufSwitchPrev > bufnr("$")
 		    let g:bufSwitchPrev = 0
 		endif
 	    endw
@@ -137,7 +145,7 @@ endfun
 
 command! Dia call DiaryEntry()
 command! Dat call PrintDate()
-command! Now call PrintTime()
+command! -nargs=1 Now call PrintTimedMsg(<f-args>)
 command! Jdr call LogDaySection()
 command! NextBuffer call BufSwitch()
 map <F6> :call FlipHeader()<CR>
